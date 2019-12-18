@@ -10,6 +10,7 @@ object DateStreamingWcApp {
 
     val data = env.socketTextStream("hadoop01", 7777)
 
+
     val aggStream = data.flatMap(_.split(" "))
       .filter(_.nonEmpty)
       .map((_, 1))
