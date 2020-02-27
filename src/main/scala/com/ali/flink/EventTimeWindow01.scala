@@ -1,16 +1,24 @@
 package com.ali.flink
 
+import org.apache.flink.api.common.restartstrategy.RestartStrategies
 import org.apache.flink.api.java.tuple.Tuple
-import org.apache.flink.streaming.api.TimeCharacteristic
+import org.apache.flink.streaming.api.{CheckpointingMode, TimeCharacteristic}
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment, WindowedStream}
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.api.scala._
 import org.apache.flink.streaming.api.windowing.assigners.{SlidingEventTimeWindows, TumblingEventTimeWindows}
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow
+import org.elasticsearch.index.seqno.ReplicationTracker.CheckpointState
 object EventTimeWindow01 {
   def main(args: Array[String]): Unit = {
     val env=StreamExecutionEnvironment.getExecutionEnvironment
+//    env.enableCheckpointing(60000)
+//    env.getCheckpointConfig.setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE)
+//    env.getCheckpointConfig.setCheckpointTimeout(1000000)
+//    env.getCheckpointConfig.setFailOnCheckpointingErrors(false)
+//    env.getCheckpointConfig.setMaxConcurrentCheckpoints(5)
+    env.setRestartStrategy(RestartStrategies.fixedDelayRestart(3,500))
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
     val stream=env.socketTextStream("hadoop01",7777)
       .assignTimestampsAndWatermarks(
