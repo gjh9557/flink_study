@@ -7,4 +7,5 @@ object constant {
   val redishost="hadoop01"
   val schme="http"
   val Esport=9200
+  val Rich_topic="tempeture"
 }
