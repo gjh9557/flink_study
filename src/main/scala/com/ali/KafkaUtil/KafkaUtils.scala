@@ -3,7 +3,8 @@ package com.ali.KafkaUtil
 import java.util.Properties
 
 import com.ali.Constant.constant
-import org.apache.flink.api.common.serialization.SimpleStringSchema
+import com.ali.study_begin.Tem
+import org.apache.flink.api.common.serialization.{SerializationSchema, SimpleStringSchema}
 import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer011, FlinkKafkaProducer011}
 
 object KafkaUtils {
